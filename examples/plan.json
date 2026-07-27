@@ -1,0 +1,9 @@
+{
+  "version": 1,
+  "game": "North Road",
+  "items": [
+    {"id": "companion", "title": "Finish companion quest", "category": "quests", "status": "pending", "required": true},
+    {"id": "gear", "title": "Upgrade carried gear", "category": "inventory", "status": "pending", "depends_on": ["companion"]},
+    {"id": "ending", "title": "Record the ending choice", "category": "decisions", "status": "done"}
+  ]
+}
