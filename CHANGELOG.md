@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.1.0 - Unreleased
+
+- Added deterministic transitive blocker paths and an actionable prerequisite frontier for incomplete required goals.
+
 ## 1.0.0 - 2026-07-26
 
 - Added categorized New Game Plus preparation items.

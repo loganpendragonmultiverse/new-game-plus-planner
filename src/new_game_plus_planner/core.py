@@ -58,6 +58,17 @@ def load_plan(path: Path) -> dict[str, Any]:
 
 def evaluate(data: dict[str, Any]) -> dict[str, Any]:
     by_id = {item["id"]: item for item in data["items"]}
+
+    def chains(item_id: str, prefix: list[str]) -> list[list[str]]:
+        result = []
+        for dependency in sorted(set(by_id[item_id].get("depends_on", []))):
+            if by_id[dependency]["status"] == "done":
+                continue
+            chain = [*prefix, dependency]
+            result.append(chain)
+            result.extend(chains(dependency, chain))
+        return result
+
     evaluated = []
     for item in data["items"]:
         unmet = [
@@ -75,13 +86,27 @@ def evaluate(data: dict[str, Any]) -> dict[str, Any]:
                 "required": item.get("required", False),
                 "state": state,
                 "unmet_dependencies": unmet,
+                "blocker_chains": chains(item["id"], [item["id"]])
+                if item["status"] == "pending"
+                else [],
             }
         )
     counts = Counter(item["state"] for item in evaluated)
     required_incomplete = [
         item for item in evaluated if item["required"] and item["status"] != "done"
     ]
+    actionable = {item["id"] for item in evaluated if item["state"] == "actionable"}
+    frontier = sorted(
+        {
+            chain[-1]
+            for item in evaluated
+            if item["required"] and item["status"] == "pending"
+            for chain in [[item["id"]], *item["blocker_chains"]]
+            if chain[-1] in actionable
+        }
+    )
     return {
+        "prerequisite_frontier": frontier,
         "version": 1,
         "game": data["game"],
         "ready": not required_incomplete,
@@ -98,6 +123,13 @@ def render_markdown(report: dict[str, Any]) -> str:
         f"Ready: **{'Yes' if report['ready'] else 'No'}** · Required items remaining: **{report['required_incomplete']}**",
         "",
     ]
+    lines.extend(
+        [
+            "Actionable prerequisite frontier: "
+            + (", ".join(report["prerequisite_frontier"]) or "None"),
+            "",
+        ]
+    )
     for category in sorted(CATEGORIES):
         items = [item for item in report["items"] if item["category"] == category]
         if not items:
@@ -112,5 +144,7 @@ def render_markdown(report: dict[str, Any]) -> str:
                 else ""
             )
             lines.append(f"- [{marker}] **{item['title']}** — {item['state']}{required}{blocked}")
+            for chain in item["blocker_chains"]:
+                lines.append("  - Blocker chain: " + " -> ".join(chain))
         lines.append("")
     return "\n".join(lines).rstrip() + "\n"
