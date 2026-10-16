@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "new-game-plus-planner"
-version = "1.1.0"
+version = "1.1.1"
 description = "Organize cleanup, inventory, quests, and decisions before starting New Game Plus."
 readme = "README.md"
 requires-python = ">=3.10"

@@ -1,6 +1,6 @@
 # Development
 
-## 1.1.0 candidate
+## 1.1.0 - 2026-10-15
 
 Reports now include `blocker_chains` per pending item. Each path starts with that item and follows unmet dependencies in sorted ID order, preserving both paths through a diamond. Completed prerequisites end a path; skipped prerequisites remain blockers and are never listed as actionable.
 
