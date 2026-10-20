@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "new-game-plus-planner"
-version = "1.1.1"
+version = "1.1.2"
 description = "Organize cleanup, inventory, quests, and decisions before starting New Game Plus."
 readme = "README.md"
 requires-python = ">=3.10"
@@ -31,3 +31,7 @@ omit = ["src/*/__main__.py"]
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 addopts = "--cov=new_game_plus_planner --cov-branch --cov-report=term-missing --cov-fail-under=90"
+
+[tool.setuptools.data-files]
+"share/new-game-plus-planner" = ["README.md", "DEVELOPMENT.md", "TESTING.md", "CHANGELOG.md"]
+"share/new-game-plus-planner/examples" = ["examples/plan.json"]
