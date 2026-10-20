@@ -13,3 +13,5 @@ python -m build
 ```
 
 The pytest configuration enforces the repository's existing 90% coverage floor. CI covers Python 3.10 and 3.14 on Linux, Windows, and macOS. New feature tests use synthetic input and do not require game files or personal data. Run the full suite before submitting a change; CLI regression tests preserve legacy input/output behavior.
+
+Gold regression coverage includes real installed wheel and sdist CLI flows, malformed input, unchanged source bytes and existing/dangling output protection. No live game files or personal manuscripts are required.

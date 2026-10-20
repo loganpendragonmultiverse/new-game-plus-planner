@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.1.2 - 2026-10-20
+
+- Package the four handoff guides and a synthetic example with both distributions.
+
+- Validate boolean required flags, integer schema versions, nonblank labels and unique string dependencies before readiness calculation.
+- Check deep dependency graphs iteratively and stop oversized blocker reports with a bounded diagnostic.
+- Create report files exclusively and reject existing or dangling symbolic-link outputs.
+
 ## 1.1.1 - 2026-10-16
 
 - Correct the completed 1.1.0 release wording and dates; feature behavior is unchanged.

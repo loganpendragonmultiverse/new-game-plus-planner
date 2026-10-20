@@ -7,3 +7,5 @@ Reports now include `blocker_chains` per pending item. Each path starts with tha
 The top-level `prerequisite_frontier` lists sorted actionable IDs that can move incomplete required goals forward, including an actionable required goal itself. Optional goals do not create extra work, but an optional prerequisite of a required goal can appear in the frontier. An empty frontier can mean skipped blockers need reconsideration; it does not imply readiness. Readiness continues to require every explicitly required item to be done. The planner only reads the supplied plan and never accesses saves or games.
 
 Merge and release require independent review and the repository CI gates.
+
+Version 1.1.2 retains checklist semantics while validating explicit booleans and unique dependency IDs. Iterative traversal preserves sorted path order; a one-million-ID-reference report budget bounds path explosion.
